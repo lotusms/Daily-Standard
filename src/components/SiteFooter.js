@@ -24,7 +24,7 @@ export default function SiteFooter() {
         >
           <DailyStandardLogo
             variant="compact"
-            className="max-w-48"
+            className="w-auto max-w-72"
             title={orgName}
           />
         </Link>

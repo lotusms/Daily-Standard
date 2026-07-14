@@ -29,7 +29,7 @@ export default function ConnectPage() {
           aria-label={`${orgName} — home`}
         >
           <DailyStandardLogo
-            className="mx-auto max-w-[min(100%,14rem)]"
+            className="mx-auto w-full max-w-xs sm:max-w-sm"
             title={orgName}
           />
         </Link>

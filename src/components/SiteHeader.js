@@ -136,30 +136,34 @@ export default function SiteHeader() {
 
   return (
     <>
-      <header
-        className="fixed inset-x-0 top-0 z-110 border-b border-slate-200/80 py-2"
-        style={{
-          backgroundColor: `rgba(248, 250, 252, ${0.72 + 0.28 * headerFade})`,
-          boxShadow:
-            headerFade > 0
-              ? `0 8px 32px -12px rgba(15, 23, 42, ${0.08 * headerFade})`
-              : "none",
-          backdropFilter:
-            headerFade > 0.01 ? `blur(${20 * headerFade}px)` : "none",
-        }}
-      >
-        <div className="relative z-120 mx-auto flex h-18 max-w-7xl items-center px-5 sm:px-8 lg:px-10">
+      <header className="fixed inset-x-0 top-0 z-110 border-b border-slate-200/80 py-2">
+        {/* Blur lives on a sibling layer so the SVG logo is not re-rasterized. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            backgroundColor: `rgba(248, 250, 252, ${0.72 + 0.28 * headerFade})`,
+            boxShadow:
+              headerFade > 0
+                ? `0 8px 32px -12px rgba(15, 23, 42, ${0.08 * headerFade})`
+                : "none",
+            backdropFilter:
+              headerFade > 0.01 ? `blur(${20 * headerFade}px)` : "none",
+            WebkitBackdropFilter:
+              headerFade > 0.01 ? `blur(${20 * headerFade}px)` : "none",
+          }}
+        />
+        <div className="relative z-120 mx-auto flex h-20 max-w-7xl items-center px-5 sm:px-8 lg:px-10">
           <Link
             href="/"
-            className="group relative z-10 flex shrink-0 items-center rounded-sm transition-opacity duration-300 hover:opacity-85 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-500/60"
+            className="group relative z-10 flex shrink-0 items-center rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-500/60"
             onClick={close}
             aria-label={`${orgName} — home`}
           >
             <DailyStandardLogo
               variant="compact"
-              className="min-w-36 sm:min-w-44"
+              className="w-auto"
               title={orgName}
-              priority
             />
           </Link>
 

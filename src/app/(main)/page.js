@@ -17,7 +17,7 @@ export const metadata = buildPageMetadata({
 export default function Home() {
   return (
     <main>
-      <section className="relative -mt-16 flex flex-col">
+      <section className="relative flex flex-col">
         <div className="relative flex flex-col">
           <HomeHero />
           <HomeValueBar />

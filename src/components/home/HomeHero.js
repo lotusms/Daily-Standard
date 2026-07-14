@@ -24,7 +24,7 @@ export default function HomeHero() {
         }}
       />
 
-      <div className="relative z-2 mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-5 pt-[calc(7.5rem+env(safe-area-inset-top,0px))] pb-16 sm:px-10 lg:px-12 lg:pb-20">
+      <div className="relative z-2 mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-5 pt-[calc(8rem+env(safe-area-inset-top,0px))] pb-16 sm:px-10 sm:pt-[calc(8.5rem+env(safe-area-inset-top,0px))] lg:px-12 lg:pb-20">
         <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
           <div className="max-w-xl text-left">
             <p className="text-[0.65rem] font-bold uppercase tracking-[0.36em] text-slate-500 sm:text-xs">
@@ -59,9 +59,9 @@ export default function HomeHero() {
           </div>
 
           <div className="flex flex-col items-center justify-center lg:items-end">
-            <div className="rounded-2xl border border-slate-200/80 bg-white/90 p-6 shadow-[0_24px_64px_-24px_rgba(15,23,42,0.18)] backdrop-blur-sm sm:p-8">
+            <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-[0_24px_64px_-24px_rgba(15,23,42,0.18)] sm:p-8">
               <DailyStandardLogo
-                className="mx-auto max-w-[min(100%,16rem)] lg:mx-0 lg:max-w-xs"
+                className="mx-auto w-full max-w-sm lg:mx-0 lg:max-w-md"
                 title={orgName}
               />
             </div>
