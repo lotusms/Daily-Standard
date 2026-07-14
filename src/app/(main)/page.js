@@ -26,8 +26,6 @@ export default function Home() {
 
       <HomePillarsSection />
 
-      <HomeSectionDivider className="my-10" />
-
       <HomeTestimonialWheel />
 
       <HomeSectionDivider className="my-10" />
