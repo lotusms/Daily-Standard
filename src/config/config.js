@@ -81,7 +81,6 @@ export const mainNav = [
     ],
   },
   { href: "/about", label: "About" },
-  { href: "/book", label: "Book a Call", prefix: true },
   { href: "/contact", label: "Contact" },
 ];
 

@@ -169,7 +169,7 @@ export default function SiteHeader() {
 
           <nav
             aria-label="Main"
-            className="absolute left-1/2 top-1/2 z-30 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-8 min-[992px]:flex"
+            className="absolute left-1/2 top-1/2 z-30 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-8 min-[991px]:flex"
           >
             {mainNav.map((item) => {
               const hasChildren =
@@ -198,7 +198,7 @@ export default function SiteHeader() {
 
             <button
               type="button"
-              className="flex h-11 w-11 flex-col items-center justify-center gap-1.5 rounded-full border border-slate-200 bg-white text-slate-700 transition hover:border-yellow-400/60 hover:bg-yellow-50 min-[992px]:hidden"
+              className="flex h-11 w-11 flex-col items-center justify-center gap-1.5 rounded-full border border-slate-200 bg-white text-slate-700 transition hover:border-yellow-400/60 hover:bg-yellow-50 min-[991px]:hidden"
               aria-expanded={open}
               aria-controls={panelId}
               aria-label={open ? "Close menu" : "Open menu"}
@@ -230,7 +230,7 @@ export default function SiteHeader() {
         aria-modal="true"
         aria-label="Site navigation"
         aria-hidden={!open}
-        className={`mobile-nav-panel fixed inset-0 z-100 flex h-full min-h-dvh flex-col min-[992px]:hidden ${open ? "mobile-nav-panel--open" : ""} transition-[visibility,opacity] duration-300 ease-out ${
+        className={`mobile-nav-panel fixed inset-0 z-100 flex h-full min-h-dvh flex-col min-[991px]:hidden ${open ? "mobile-nav-panel--open" : ""} transition-[visibility,opacity] duration-300 ease-out ${
           open
             ? "visible opacity-100"
             : "invisible pointer-events-none opacity-0"
