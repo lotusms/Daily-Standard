@@ -9,7 +9,7 @@ export default function HomeBookingCTA() {
     <section
       id="booking"
       aria-labelledby="booking-heading"
-      className="relative z-10 w-full overflow-hidden border-t border-slate-200 bg-linear-to-br from-yellow-50/80 via-white to-slate-50 py-20 sm:py-24 lg:py-28"
+      className="relative z-10 w-full overflow-hidden border-t border-slate-200 bg-linear-to-br from-[#f7f6f3] via-white to-slate-50 py-20 sm:py-24 lg:py-28"
     >
       <div className="relative mx-auto grid w-full max-w-7xl items-center gap-12 px-6 sm:px-10 lg:grid-cols-2 lg:gap-16 lg:px-12">
         <ScrollSlideIn direction="left">
@@ -22,7 +22,7 @@ export default function HomeBookingCTA() {
             className="mt-5 font-serif text-4xl font-semibold leading-[1.05] tracking-[-0.02em] text-slate-800 sm:text-5xl"
           >
             Ready to raise your{" "}
-            <span className="text-yellow-500">daily standard</span>?
+            <span className="text-[#bb7e3b]">daily standard</span>?
           </h2>
 
           <p className="mt-6 max-w-xl text-base leading-8 text-slate-600">

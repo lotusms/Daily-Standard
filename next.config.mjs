@@ -84,7 +84,7 @@ const nextConfig = {
      *   75 — Next/Image implicit default when no `quality` prop is set
      *   80 — `CoverImageFrame` default (catalog tiles, galleries, hero art)
      *   82 — `HomeHeroArtRotator`
-     *   88 — `HomeCarouselHero`
+     *   88 — Home heroes / carousel
      */
     qualities: [75, 80, 82, 88],
     minimumCacheTTL: 60 * 60 * 24 * 7,

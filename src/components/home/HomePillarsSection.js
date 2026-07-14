@@ -25,7 +25,7 @@ export default function HomePillarsSection() {
   return (
     <section
       aria-labelledby="approach-heading"
-      className="relative z-10 w-full py-16 sm:py-20 lg:py-24"
+      className="relative z-10 w-full py-12 sm:py-16 lg:py-20"
     >
       <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-12">
         <div className="max-w-2xl">
@@ -48,8 +48,8 @@ export default function HomePillarsSection() {
         <div className="mt-12 grid gap-6 sm:grid-cols-3 sm:gap-8">
           {STEPS.map((item, i) => (
             <ScrollSlideIn key={item.step} delay={i * 80}>
-              <article className="h-full rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:border-yellow-300/60 hover:shadow-md sm:p-8">
-                <p className="font-mono text-xs tracking-[0.3em] text-yellow-600">
+              <article className="h-full rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:border-[#bb7e3b]/45 hover:shadow-md sm:p-8">
+                <p className="font-mono text-xs tracking-[0.3em] text-[#bb7e3b]">
                   {item.step}
                 </p>
                 <h3 className="mt-4 font-serif text-xl font-semibold text-slate-800">

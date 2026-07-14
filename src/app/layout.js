@@ -44,7 +44,13 @@ export const metadata = {
         type: "image/png",
       },
     ],
-    apple: "/favicon/apple-touch-icon.png",
+    apple: [
+      {
+        url: "/favicon/apple-touch-icon.png",
+        sizes: "180x180",
+        type: "image/png",
+      },
+    ],
   },
   manifest: absoluteUrl("/favicon/site.webmanifest"),
   category: "business",

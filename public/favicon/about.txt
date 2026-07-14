@@ -1,6 +1,4 @@
-This favicon was generated using the following font:
+Kevin Miller Coaching monogram favicon.
 
-- Font Title: Kumar One
-- Font Author: undefined
-- Font Source: https://fonts.gstatic.com/s/kumarone/v24/bMr1mS-P958wYi6YaGeGNO6WU3oT0g.ttf
-- Font License: undefined)
+Source art: LogoFavicon.png (KM brush mark).
+Generated sizes: 16, 32, 180 (apple-touch), 192, 512, and multi-size favicon.ico.
