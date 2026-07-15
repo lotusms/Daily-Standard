@@ -108,7 +108,10 @@ export default function SiteHeader() {
     scrollFadeServerSnapshot,
   );
 
-  const headerFade = open ? 1 : scrollFade;
+  const isHome = pathname === "/";
+  // Home keeps the soft translucent fade; other pages stay fully opaque
+  // so dark heroes never tint the nav.
+  const headerFade = open || !isHome ? 1 : scrollFade;
 
   function setScrollLocked(locked) {
     document.body.style.overflow = locked ? "hidden" : "";
@@ -141,17 +144,24 @@ export default function SiteHeader() {
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0"
-          style={{
-            backgroundColor: `rgba(248, 250, 252, ${0.72 + 0.28 * headerFade})`,
-            boxShadow:
-              headerFade > 0
-                ? `0 8px 32px -12px rgba(15, 23, 42, ${0.08 * headerFade})`
-                : "none",
-            backdropFilter:
-              headerFade > 0.01 ? `blur(${20 * headerFade}px)` : "none",
-            WebkitBackdropFilter:
-              headerFade > 0.01 ? `blur(${20 * headerFade}px)` : "none",
-          }}
+          style={
+            isHome
+              ? {
+                  backgroundColor: `rgba(248, 250, 252, ${0.72 + 0.28 * headerFade})`,
+                  boxShadow:
+                    headerFade > 0
+                      ? `0 8px 32px -12px rgba(15, 23, 42, ${0.08 * headerFade})`
+                      : "none",
+                  backdropFilter:
+                    headerFade > 0.01 ? `blur(${20 * headerFade}px)` : "none",
+                  WebkitBackdropFilter:
+                    headerFade > 0.01 ? `blur(${20 * headerFade}px)` : "none",
+                }
+              : {
+                  backgroundColor: "rgb(248, 250, 252)",
+                  boxShadow: "0 8px 32px -12px rgba(15, 23, 42, 0.08)",
+                }
+          }
         />
         <div className="relative z-120 mx-auto flex h-20 max-w-7xl items-center px-5 sm:px-8 lg:px-10">
           <Link

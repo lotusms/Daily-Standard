@@ -25,7 +25,7 @@ export default function ContactEmailCta({ embedded = false }) {
         {orgInquiryEmail}
       </span>
       <span className="text-sm text-neutral-200/90">
-        General estimates and scheduling — or choose Tyler or Rick in the form below.
+        Questions about coaching, programs, or scheduling a discovery call.
       </span>
     </a>
   );

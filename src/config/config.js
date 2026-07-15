@@ -10,12 +10,18 @@ export const orgPhoneTel = "";
 export const orgPhoneLabel = "";
 
 /** Inquiries — contact form and mailto links */
-export const orgInquiryEmail = "hello@thedailystandard.co";
+export const orgInquiryEmail = "connect@kevinmillercoaching.com";
 
 /** Canonical production URL — override with NEXT_PUBLIC_SITE_URL in env. */
-export const siteDefaultUrl = "https://www.thedailystandard.co";
+export const siteDefaultUrl = "https://www.kevinmillercoaching.com";
 
-/** Zoom Scheduler link — set NEXT_PUBLIC_ZOOM_SCHEDULING_URL in .env.local */
+/** Calendly booking page — set NEXT_PUBLIC_CALENDLY_URL in .env.local (Zoom as location). */
+export const calendlyUrl =
+  typeof process !== "undefined"
+    ? process.env.NEXT_PUBLIC_CALENDLY_URL?.trim() || ""
+    : "";
+
+/** @deprecated Prefer calendlyUrl — kept for any leftover Zoom Scheduler embeds */
 export const zoomSchedulingUrl =
   typeof process !== "undefined"
     ? process.env.NEXT_PUBLIC_ZOOM_SCHEDULING_URL?.trim() || ""
@@ -24,7 +30,11 @@ export const zoomSchedulingUrl =
 /** Public social profiles */
 export const instagramUrl = "";
 export const facebookPageUrl = "";
-export const googleReviewUrl = "";
+/** Google review / profile page — set NEXT_PUBLIC_GOOGLE_REVIEW_URL in .env.local */
+export const googleReviewUrl =
+  typeof process !== "undefined"
+    ? process.env.NEXT_PUBLIC_GOOGLE_REVIEW_URL?.trim() || ""
+    : "";
 
 /**
  * Contact form recipients — `id` is submitted with the form; `email` is the delivery address.
@@ -33,7 +43,7 @@ export const contactRecipients = [
   {
     id: "general",
     label: "General inquiry",
-    email: "hello@thedailystandard.co",
+    email: "connect@kevinmillercoaching.com",
     description: "Questions about coaching, programs, or scheduling.",
   },
 ];

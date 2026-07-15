@@ -127,6 +127,26 @@ body {
   }
 }
 
+@keyframes testimonial-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.4rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes testimonial-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
 @layer utilities {
   .animate-aura-1 {
     animation: aura-1 18s ease-in-out infinite;
@@ -138,6 +158,15 @@ body {
 
   .animate-aura-3 {
     animation: aura-3 20s ease-in-out infinite reverse;
+  }
+
+  .animate-testimonial-fade {
+    animation: testimonial-fade-in 480ms ease-out both;
+  }
+
+  .animate-testimonial-progress {
+    transform-origin: left center;
+    animation: testimonial-progress 6s linear forwards;
   }
 
   .text-gradient-hero {

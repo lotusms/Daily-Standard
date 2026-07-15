@@ -13,13 +13,14 @@ export default function ContactHelpfulDetailsCard({ lines, embedded = false }) {
   const listBlock = (
     <>
       <p className={`${introMt} text-sm leading-7 text-site-fg/90`}>
-        A few details help us prepare an accurate estimate and schedule a site visit when needed. The more you share now, the faster we can quote your project.
+        A few details help the first reply land better. You don’t need a polished
+        plan — just enough context so the conversation can start where you are.
       </p>
       <ul className="mt-5 space-y-4 text-sm leading-4 text-site-fg/90">
         {lines.map((line) => (
           <li key={line} className="flex gap-3">
             <span
-              className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500 shadow-[0_0_8px] shadow-blue-500/35"
+              className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#e4b049] shadow-[0_0_8px] shadow-[#e4b049]/35"
               aria-hidden
             />
             <span>{line}</span>
@@ -47,7 +48,7 @@ export default function ContactHelpfulDetailsCard({ lines, embedded = false }) {
     >
       {listBlock}
       <p className="mt-8 border-t border-site-fg/10 px-12 pt-6 text-center text-xs uppercase tracking-[0.22em] text-neutral-200/90">
-        Spring and fall book quickly — reach out early for your preferred window.
+        Virtual coaching · Nutrition · Exercise · Faith
       </p>
     </Card>
   );

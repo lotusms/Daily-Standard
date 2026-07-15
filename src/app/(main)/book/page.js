@@ -1,5 +1,5 @@
+import CalendlyScheduler from "@/components/scheduling/CalendlyScheduler";
 import PageLayout from "@/components/PageLayout";
-import ZoomScheduler from "@/components/scheduling/ZoomScheduler";
 import { orgLegalName } from "@/config";
 import { buildPageMetadata } from "@/lib/seo";
 
@@ -17,8 +17,8 @@ export default function BookPage() {
       subtitle="Pick a time that works for you. We'll meet on Zoom for an honest conversation about your goals — no obligation, no hard sell."
       width="full"
     >
-      <div className="mx-auto max-w-3xl px-6 pb-16 sm:px-10 lg:px-12">
-        <ZoomScheduler />
+      <div className="mx-auto w-full max-w-7xl px-6 pb-16 sm:px-10 lg:px-12">
+        <CalendlyScheduler />
       </div>
     </PageLayout>
   );

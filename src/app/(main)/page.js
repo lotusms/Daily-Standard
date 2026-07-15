@@ -1,4 +1,3 @@
-import HomeSectionDivider from "@/components/ui/HomeSectionDivider";
 import HomeBookingCTA from "@/components/home/HomeBookingCTA";
 import HomePillarsSection from "@/components/home/HomePillarsSection";
 import HomeTestimonialWheel from "@/components/home/HomeTestimonialWheel";
@@ -27,8 +26,6 @@ export default function Home() {
       <HomePillarsSection />
 
       <HomeTestimonialWheel />
-
-      <HomeSectionDivider className="my-10" />
 
       <HomeBookingCTA />
     </main>

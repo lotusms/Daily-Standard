@@ -1,7 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+
+import PrimaryButton from "@/components/ui/PrimaryButton";
+import { googleReviewUrl } from "@/config";
 
 const TESTIMONIALS = [
   {
@@ -46,11 +49,8 @@ const TESTIMONIALS = [
   },
 ];
 
-const ROTATE_MS = 5500;
-const TRANSITION_MS = 1400;
-const ROTATE_EASE = "cubic-bezier(0.6, 0.05, 0.2, 1)";
+const ROTATE_MS = 6000;
 
-/** Returns true once the component has mounted on the client; false during SSR. */
 const noopSubscribe = () => () => {};
 function useHasMounted() {
   return useSyncExternalStore(
@@ -69,59 +69,59 @@ function initialsFor(name) {
     .join("");
 }
 
-function Avatar({ testimonial, isActive }) {
+function RosterAvatar({ testimonial, isActive }) {
   const mounted = useHasMounted();
   const [failed, setFailed] = useState(false);
   const showImage = mounted && Boolean(testimonial.image) && !failed;
 
-  const wellClass = "bg-slate-800 text-blue-100";
-
-  const ringActive =
-    "border-yellow-400 shadow-lg shadow-yellow-500/20 ring-2 ring-yellow-400/30";
-
-  const ringIdle = "border-slate-200 shadow-sm";
-
   return (
-    <div
-      className={`relative h-full w-full overflow-hidden rounded-[28%] border-2 transition duration-700 ${
+    <span
+      className={`relative h-10 w-10 shrink-0 overflow-hidden rounded-full border-2 transition duration-300 ${
         isActive
-          ? `scale-[1.08] ${ringActive}`
-          : `scale-100 opacity-80 group-hover:opacity-100 ${ringIdle}`
+          ? "border-[#e4b049] shadow-[0_0_0_3px_rgba(228,176,73,0.25)]"
+          : "border-[#bb7e3b]/30 group-hover:border-[#bb7e3b]/60"
       }`}
     >
       {showImage ? (
         <Image
           src={testimonial.image}
-          alt={`Portrait of ${testimonial.name}`}
+          alt=""
           fill
-          sizes="(max-width: 640px) 64px, 96px"
+          sizes="40px"
           className="object-cover"
           onError={() => setFailed(true)}
         />
       ) : (
-        <div
-          className={`flex h-full w-full items-center justify-center text-sm font-semibold uppercase tracking-[0.18em] ${wellClass}`}
-          aria-hidden="true"
+        <span
+          className={`flex h-full w-full items-center justify-center text-[0.65rem] font-bold tracking-wider ${
+            isActive
+              ? "bg-linear-to-br from-[#bb7e3b] to-[#c2652a] text-white"
+              : "bg-[#bb7e3b]/15 text-[#bb7e3b]"
+          }`}
+          aria-hidden
         >
           {initialsFor(testimonial.name)}
-        </div>
+        </span>
       )}
-    </div>
+    </span>
   );
 }
 
 export default function HomeTestimonialWheel({ testimonials = TESTIMONIALS }) {
   const items = useMemo(
-    () => (Array.isArray(testimonials) && testimonials.length > 0 ? testimonials : TESTIMONIALS),
+    () =>
+      Array.isArray(testimonials) && testimonials.length > 0
+        ? testimonials
+        : TESTIMONIALS,
     [testimonials],
   );
   const n = items.length;
 
-  const [step, setStep] = useState(0);
+  const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
-  /** Bumps on manual navigation so the interval restarts and cannot double-fire with a tick. */
-  const [autoAdvanceEpoch, setAutoAdvanceEpoch] = useState(0);
+  const [epoch, setEpoch] = useState(0);
+  const [progressKey, setProgressKey] = useState(0);
 
   useEffect(() => {
     if (typeof window === "undefined" || !window.matchMedia) return undefined;
@@ -135,198 +135,223 @@ export default function HomeTestimonialWheel({ testimonials = TESTIMONIALS }) {
   useEffect(() => {
     if (n <= 1 || paused || reducedMotion) return undefined;
     const id = window.setInterval(() => {
-      setStep((s) => s + 1);
+      setActive((i) => (i + 1) % n);
+      setEpoch((e) => e + 1);
+      setProgressKey((k) => k + 1);
     }, ROTATE_MS);
     return () => window.clearInterval(id);
-  }, [n, paused, reducedMotion, autoAdvanceEpoch]);
+  }, [n, paused, reducedMotion, epoch]);
 
-  const wheelRotation = step * (360 / n);
-  const active = ((n - (step % n)) % n + n) % n;
-  const transition = reducedMotion ? "none" : `transform ${TRANSITION_MS}ms ${ROTATE_EASE}`;
+  // Restart the progress bar when autoplay resumes so it stays in sync.
+  const wasPausedRef = useRef(false);
+  useEffect(() => {
+    if (wasPausedRef.current && !paused) {
+      setProgressKey((k) => k + 1);
+    }
+    wasPausedRef.current = paused;
+  }, [paused]);
 
-  function bumpAutoAdvanceEpoch() {
-    setAutoAdvanceEpoch((e) => e + 1);
+  function select(i) {
+    if (i === active) return;
+    setActive(i);
+    setEpoch((e) => e + 1);
+    setProgressKey((k) => k + 1);
   }
 
-  function jumpTo(i) {
-    const delta = ((active - i) % n + n) % n;
-    if (delta === 0) return;
-    setStep((s) => s + delta);
-    bumpAutoAdvanceEpoch();
-  }
-
-  /** Wheel rotates CW when `step` increases, so `next` advances and `prev` rewinds. */
   function next() {
-    setStep((s) => s + 1);
-    bumpAutoAdvanceEpoch();
+    setActive((i) => (i + 1) % n);
+    setEpoch((e) => e + 1);
+    setProgressKey((k) => k + 1);
   }
+
   function prev() {
-    setStep((s) => s - 1);
-    bumpAutoAdvanceEpoch();
+    setActive((i) => (i - 1 + n) % n);
+    setEpoch((e) => e + 1);
+    setProgressKey((k) => k + 1);
   }
 
-  const eyebrow =
-    "text-xs font-bold uppercase tracking-[0.32em] text-slate-500";
-
-  const heading =
-    "font-serif text-3xl font-semibold tracking-[-0.02em] text-slate-800 sm:text-4xl";
-
-  const role = "mt-1 text-sm text-slate-500";
-
-  const quote = "mt-6 text-base leading-8 text-slate-600";
-
-  const quoteMark = "text-yellow-500/80";
+  const current = items[active] ?? items[0];
+  const fadeClass = reducedMotion ? "" : "animate-testimonial-fade";
 
   return (
     <section
       id="testimonials"
       aria-label="Client testimonials"
-      className="relative z-10 w-full overflow-hidden border-y border-slate-200 bg-white py-16 sm:py-20"
+      className="relative z-10 w-full overflow-hidden py-16 sm:py-20"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocusCapture={() => setPaused(true)}
+      onBlurCapture={() => setPaused(false)}
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_15%_0%,rgba(234,179,8,0.12),transparent_55%),radial-gradient(ellipse_60%_50%_at_100%_100%,rgba(148,163,184,0.15),transparent_50%)]"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage:
+            "radial-gradient(ellipse at 85% 10%, rgba(228,176,73,0.14), transparent 42%), radial-gradient(ellipse at 10% 90%, rgba(187,126,59,0.12), transparent 48%)",
+        }}
       />
 
-      <div className="relative mx-auto grid w-full max-w-7xl items-center gap-12 px-6 sm:px-10 lg:grid-cols-[1fr_1.05fr] lg:gap-16 lg:px-12">
-        <div
-          className="relative mx-auto aspect-square w-full max-w-[340px] [--avatar:4rem] [--radius:8.5rem] sm:max-w-[420px] sm:[--avatar:5rem] sm:[--radius:10.5rem] lg:max-w-[460px] lg:[--avatar:5.5rem] lg:[--radius:11.5rem]"
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
-          onFocusCapture={() => setPaused(true)}
-          onBlurCapture={() => setPaused(false)}>
-          <div
-            className="relative h-full w-full"
-            style={{
-              transform: `rotate(${wheelRotation}deg)`,
-              transition,
-            }}
-          >
-            {items.map((t, i) => {
-              const itemAngle = (i * 360) / n;
-              const isActive = i === active;
-              return (
-                <button
-                  type="button"
-                  key={t.id ?? t.name}
-                  onClick={() => jumpTo(i)}
-                  aria-label={`Show testimonial from ${t.name}`}
-                  aria-pressed={isActive}
-                  className="group absolute left-1/2 top-1/2 rounded-[28%] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
-                  style={{
-                    width: "var(--avatar)",
-                    height: "var(--avatar)",
-                    transform: `translate(-50%, -50%) rotate(${itemAngle}deg) translateX(var(--radius)) rotate(${-(itemAngle + wheelRotation)}deg)`,
-                    transition,
-                  }}
-                >
-                  <Avatar testimonial={t} isActive={isActive} />
-                </button>
-              );
-            })}
+      <div className="relative mx-auto max-w-7xl px-6 sm:px-10 lg:px-12">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="flex items-center gap-3 text-[0.65rem] font-bold uppercase tracking-[0.36em] text-[#bb7e3b]">
+              <span
+                aria-hidden
+                className="inline-block h-1 w-10 shrink-0 rounded-sm bg-linear-to-r from-[#bb7e3b] to-[#e4b049]"
+              />
+              What clients say
+            </p>
+            <h2 className="mt-3 font-serif text-3xl font-semibold tracking-[-0.02em] text-[#2e2e2e] sm:text-4xl">
+              Voices held to the{" "}
+              <span className="bg-linear-to-r from-[#bb7e3b] via-[#c2652a] to-[#e4b049] bg-clip-text text-transparent">
+                standard
+              </span>
+            </h2>
+          </div>
+
+          <div className="flex items-center gap-4 self-end sm:self-auto">
+            <button
+              type="button"
+              onClick={prev}
+              aria-label="Previous testimonial"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-[#bb7e3b]/35 text-[#bb7e3b] transition hover:border-[#bb7e3b] hover:bg-[#bb7e3b]/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#bb7e3b]"
+            >
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden>
+                <path
+                  d="M15 5 L8 12 L15 19"
+                  stroke="currentColor"
+                  strokeWidth="1.75"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+            <button
+              type="button"
+              onClick={next}
+              aria-label="Next testimonial"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-[#bb7e3b]/35 text-[#bb7e3b] transition hover:border-[#bb7e3b] hover:bg-[#bb7e3b]/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#bb7e3b]"
+            >
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden>
+                <path
+                  d="M9 5 L16 12 L9 19"
+                  stroke="currentColor"
+                  strokeWidth="1.75"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
           </div>
         </div>
 
-        <div className="relative">
-          <p className={eyebrow}>What our clients say</p>
-          <div
-            className="relative mt-6 min-h-80 sm:min-h-72"
-            aria-live="polite"
-            aria-atomic="true"
+        <div className="mt-10 grid items-stretch gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-8">
+          <ol
+            className="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:gap-1.5 lg:overflow-visible lg:pb-0"
+            aria-label="Choose a testimonial"
           >
             {items.map((t, i) => {
               const isActive = i === active;
               return (
-                <article
-                  key={t.id ?? t.name}
-                  aria-hidden={!isActive}
-                  className={`absolute inset-0 transition-all duration-700 ease-out ${
-                    isActive
-                      ? "translate-y-0 opacity-100"
-                      : "pointer-events-none translate-y-3 opacity-0"
-                  }`}
-                >
-                  <h3 className={heading}>{t.name}</h3>
-                  {t.role ? <p className={role}>{t.role}</p> : null}
-                  <blockquote className={quote}>
-                    <span className={quoteMark} aria-hidden="true">&ldquo;</span>
-                    {t.quote}
-                    <span className={quoteMark} aria-hidden="true">&rdquo;</span>
-                  </blockquote>
-                </article>
+                <li key={t.id ?? t.name} className="shrink-0 lg:w-full">
+                  <button
+                    type="button"
+                    onClick={() => select(i)}
+                    aria-pressed={isActive}
+                    className={`group flex w-full min-w-[11rem] items-center gap-3 rounded-sm border px-3 py-2.5 text-left transition duration-300 lg:min-w-0 ${
+                      isActive
+                        ? "border-[#bb7e3b]/55 bg-[#2e2e2e] text-white shadow-[0_12px_28px_-16px_rgba(187,126,59,0.55)]"
+                        : "border-transparent bg-white/60 text-slate-600 hover:border-[#bb7e3b]/25 hover:bg-white"
+                    }`}
+                  >
+                    <RosterAvatar testimonial={t} isActive={isActive} />
+                    <span className="min-w-0">
+                      <span
+                        className={`block truncate font-serif text-base font-semibold ${
+                          isActive ? "text-white" : "text-[#2e2e2e]"
+                        }`}
+                      >
+                        {t.name}
+                      </span>
+                      {t.role ? (
+                        <span
+                          className={`mt-0.5 block truncate text-xs ${
+                            isActive ? "text-white/55" : "text-slate-500"
+                          }`}
+                        >
+                          {t.role}
+                        </span>
+                      ) : null}
+                    </span>
+                  </button>
+                </li>
               );
             })}
-          </div>
+          </ol>
 
-          <div className="mt-8 flex flex-wrap items-center justify-between gap-x-6 gap-y-4">
+          <div
+            className="relative flex min-h-[20rem] flex-col justify-between overflow-hidden rounded-sm border border-[#bb7e3b]/25 bg-[#2e2e2e] p-7 text-white shadow-[0_28px_70px_-36px_rgba(46,46,46,0.65)] sm:min-h-[22rem] sm:p-9 lg:p-10"
+            aria-live="polite"
+            aria-atomic="true"
+          >
             <div
-              className="flex items-center gap-2"
-              role="tablist"
-              aria-label="Testimonial selector"
+              aria-hidden
+              className="pointer-events-none absolute -top-10 -right-10 h-40 w-40 rounded-full bg-[#bb7e3b]/20 blur-3xl"
+            />
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -bottom-16 left-1/4 h-44 w-44 rounded-full bg-[#e4b049]/12 blur-3xl"
+            />
+
+            <p
+              aria-hidden
+              className="font-serif text-7xl leading-none text-[#e4b049]/35 sm:text-8xl"
             >
-              {items.map((t, i) => {
-                const isActive = i === active;
-                return (
-                  <button
-                    key={`dot-${t.id ?? t.name}`}
-                    type="button"
-                    role="tab"
-                    aria-selected={isActive}
-                    aria-label={`Show testimonial ${i + 1} of ${n}`}
-                    onClick={() => jumpTo(i)}
-                    className={`h-1.5 rounded-full transition-all duration-500 ${
-                      isActive
-                        ? "w-8 bg-blue-400"
-                        : "w-3 bg-white/20 hover:bg-white/35"
-                    }`}
-                  />
-                );
-              })}
+              &ldquo;
+            </p>
+
+            <blockquote
+              key={`quote-${current.id ?? current.name}-${epoch}`}
+              className={`relative z-10 -mt-6 max-w-3xl font-serif text-lg leading-relaxed text-white/95 sm:text-xl sm:leading-relaxed ${fadeClass}`}
+            >
+              {current.quote}
+            </blockquote>
+
+            <div className="relative z-10 mt-8 border-t border-white/10 pt-6">
+              <p className="font-serif text-xl font-semibold text-[#e4b049]">
+                {current.name}
+              </p>
+              {current.role ? (
+                <p className="mt-1 text-sm text-white/55">{current.role}</p>
+              ) : null}
             </div>
 
-            <div className="flex items-center gap-7 sm:gap-9">
-              <button
-                type="button"
-                onClick={prev}
-                aria-label="Previous testimonial"
-                className="group inline-flex items-center gap-3 py-1 text-[11px] font-medium uppercase tracking-[0.32em] text-neutral-200/70 transition-colors duration-300 hover:text-neutral-100 focus:outline-none focus-visible:text-neutral-100"
-              >
-                <svg
-                  viewBox="0 0 40 12"
-                  className="h-2.5 w-10 transition-transform duration-500 ease-out group-hover:-translate-x-1.5 group-focus-visible:-translate-x-1.5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.25"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M40 6 L1 6" />
-                  <path d="M6 1 L1 6 L6 11" />
-                </svg>
-              </button>
-              <button
-                type="button"
-                onClick={next}
-                aria-label="Next testimonial"
-                className="group inline-flex items-center gap-3 py-1 text-[11px] font-medium uppercase tracking-[0.32em] text-neutral-200/70 transition-colors duration-300 hover:text-neutral-100 focus:outline-none focus-visible:text-neutral-100"
-              >
-                <svg
-                  viewBox="0 0 40 12"
-                  className="h-2.5 w-10 transition-transform duration-500 ease-out group-hover:translate-x-1.5 group-focus-visible:translate-x-1.5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.25"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M0 6 L39 6" />
-                  <path d="M34 1 L39 6 L34 11" />
-                </svg>
-              </button>
+            <div className="absolute inset-x-0 bottom-0 h-1 bg-white/10" aria-hidden>
+              {!reducedMotion ? (
+                <div
+                  key={progressKey}
+                  className={`h-full bg-linear-to-r from-[#bb7e3b] via-[#e4b049] to-[#c2652a] animate-testimonial-progress${
+                    paused ? " [animation-play-state:paused]" : ""
+                  }`}
+                />
+              ) : null}
             </div>
           </div>
+        </div>
+
+        <div className="mt-10 flex justify-center">
+          {googleReviewUrl ? (
+            <PrimaryButton
+              href={googleReviewUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Leave us a review
+            </PrimaryButton>
+          ) : (
+            <PrimaryButton href="/contact">Leave us a review</PrimaryButton>
+          )}
         </div>
       </div>
     </section>

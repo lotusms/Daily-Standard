@@ -1,11 +1,10 @@
 import Link from "next/link";
 
 import DailyStandardLogo from "@/components/brand/DailyStandardLogo";
+import ProtectedMailto from "@/components/ProtectedMailto";
 import { orgName } from "@/config";
 
 const footerLinks = [
-  { href: "/book", label: "Book a Call" },
-  { href: "/contact", label: "Contact" },
   { href: "/privacy-policy", label: "Privacy Policy" },
   { href: "/terms-of-use", label: "Terms of Use" },
 ];
@@ -38,6 +37,7 @@ export default function SiteFooter() {
               {item.label}
             </Link>
           ))}
+          <ProtectedMailto className={linkClass}>Technical Support</ProtectedMailto>
         </nav>
       </div>
 

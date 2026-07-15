@@ -1,184 +1,221 @@
-import PageLayout from "@/components/PageLayout";
-import { orgInquiryEmail, orgLegalName, siteDefaultUrl } from "@/config";
+import Link from "next/link";
+
+import LegalPageShell from "@/components/legal/LegalPageShell";
+import { orgInquiryEmail, siteDefaultUrl } from "@/config";
 import { buildPageMetadata } from "@/lib/seo";
+
+const BRAND = "Kevin Miller Coaching";
+const LAST_UPDATED = "July 15, 2026";
 
 export const metadata = buildPageMetadata({
   title: "Privacy Policy",
-  description: `Privacy Policy for ${orgLegalName}. How we collect, use, and protect information when you visit our website or request an estimate.`,
+  description: `Privacy Policy for ${BRAND}. How we collect, use, and protect personal information when you visit our website, send a message, or book a coaching call.`,
   path: "/privacy-policy",
 });
 
 export default function PrivacyPolicyPage() {
   return (
-    <PageLayout
-      eyebrow="Legal"
+    <LegalPageShell
       title="Privacy Policy"
-      subtitle="Introduction to Our Privacy Policy"
+      subtitle={`How ${BRAND} collects, uses, and protects information when you use this website, contact us, or schedule coaching.`}
     >
-      <div className="space-y-7">
+      <section className="space-y-4">
         <p>
-          At {orgLegalName}, we are committed to protecting your
-          privacy. This privacy policy explains how we collect, use, and
-          safeguard your information when you visit our website or use our
-          services. By using our site, you consent to the practices outlined in
-          this policy.
+          {BRAND} (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) respects your privacy. This
+          Privacy Policy describes the information we collect through this
+          website, how we use it, and the choices you have. By using this site,
+          you agree to the practices described here. If you do not agree, please
+          do not use the site or submit personal information to us.
         </p>
-        <section>
-          <h2 className="font-serif text-2xl text-amber-100">
-            What information do we collect?
-          </h2>
-          <p className="mt-3">We collect information from you when you respond to a survey.</p>
-          <p className="mt-3">
-            When ordering or registering on our site, as appropriate, you may
-            be asked to enter your name, e-mail address, phone number or name.
-            You may, however, visit our site anonymously.
-          </p>
-        </section>
-        <section>
-          <h2 className="font-serif text-2xl text-amber-100">
-            What do we use your information for?
-          </h2>
-          <p className="mt-3">
-            Any of the information we collect from you may be used in one of
-            the following ways:
-          </p>
-          <ul className="mt-3 list-disc space-y-2 pl-6">
-            <li>
-              To personalize your experience (your information helps us to
-              better respond to your individual needs)
-            </li>
-            <li>To process transactions</li>
-          </ul>
-          <p className="mt-3">
-            Your information, whether public or private, will not be sold,
-            exchanged, transferred, or given to any other company for any
-            reason whatsoever, without your consent, other than for the express
-            purpose of delivering the purchased product or service requested.
-          </p>
-        </section>
-        <section>
-          <h2 className="font-serif text-2xl text-amber-100">
-            How do we protect your information?
-          </h2>
-          <p className="mt-3">
-            We implement a variety of security measures to maintain the safety
-            of your personal information when you place an order or enter,
-            submit, or access your personal information.
-          </p>
-          <p className="mt-3">
-            We offer the use of a secure server. All supplied
-            sensitive/credit information is transmitted via Secure Socket Layer
-            (SSL) technology and then encrypted into our Payment gateway
-            providers database only to be accessible by those authorized with
-            special access rights to such systems, and are required to keep the
-            information confidential.
-          </p>
-          <p className="mt-3">
-            After a transaction, your private information (credit cards, social
-            security numbers, financials, etc.) will not be stored on our
-            servers.
-          </p>
-        </section>
-        <section>
-          <h2 className="font-serif text-2xl text-amber-100">
-            Do we use cookies?
-          </h2>
-          <p className="mt-3">We do not use cookies.</p>
-        </section>
-        <section>
-          <h2 className="font-serif text-2xl text-amber-100">
-            Do we disclose any information to outside parties?
-          </h2>
-          <p className="mt-3">
-            We do not sell, trade, or otherwise transfer to outside parties
-            your personally identifiable information.
-          </p>
-          <p className="mt-3">
-            This does not include trusted third parties who assist us in
-            operating our website, conducting our business, or servicing you.
-          </p>
-          <p className="mt-3">
-            We may also release your information when we believe release is
-            appropriate to comply with the law, enforce our site policies, or
-            protect ours or others rights, property, or safety.
-          </p>
-        </section>
-        <section>
-          <h2 className="font-serif text-2xl text-amber-100">Third party links</h2>
-          <p className="mt-3">
-            Occasionally, at our discretion, we may include or offer third
-            party products or services on our website.
-          </p>
-        </section>
-        <section>
-          <h2 className="font-serif text-2xl text-amber-100">
-            California Online Privacy Protection Act Compliance
-          </h2>
-          <p className="mt-3">
-            We have taken necessary precautions to be in compliance with the
-            California Online Privacy Protection Act and will not distribute
-            your personal information to outside parties without your consent.
-          </p>
-        </section>
-        <section>
-          <h2 className="font-serif text-2xl text-amber-100">
-            Childrens Online Privacy Protection Act Compliance
-          </h2>
-          <p className="mt-3">
-            We are in compliance with COPPA. We do not collect any information
-            from anyone under 13 years of age.
-          </p>
-        </section>
-        <section>
-          <h2 className="font-serif text-2xl text-amber-100">
-            Online Privacy Policy Only
-          </h2>
-          <p className="mt-3">
-            This online privacy policy applies only to information collected
-            through our website and not to information collected offline.
-          </p>
-        </section>
-        <section>
-          <h2 className="font-serif text-2xl text-amber-100">
-            Terms and Conditions
-          </h2>
-          <p className="mt-3">
-            Please also visit our Terms and Conditions page establishing the
-            use, disclaimers, and limitations of liability governing the use of
-            our website at Terms of Use.
-          </p>
-        </section>
-        <section>
-          <h2 className="font-serif text-2xl text-amber-100">Your Consent</h2>
-          <p className="mt-3">
-            By using our site, you consent to our website privacy policy.
-          </p>
-        </section>
-        <section>
-          <h2 className="font-serif text-2xl text-amber-100">
-            Changes to our Privacy Policy
-          </h2>
-          <p className="mt-3">
-            If we decide to change our privacy policy, we will post those
-            changes on this page. This policy was last modified on Jun 22nd,
-            2024.
-          </p>
-        </section>
-        <section>
-          <h2 className="font-serif text-2xl text-amber-100">Contacting Us</h2>
-          <p className="mt-3">
-            If there are any questions regarding this privacy policy you may
-            contact us using the information below.
-          </p>
-          <p className="mt-3">
-            {orgLegalName}
-            <br />
-            {siteDefaultUrl}
-            <br />
-            {orgInquiryEmail}
-          </p>
-        </section>
-      </div>
-    </PageLayout>
+        <p className="text-sm text-slate-500">Last updated: {LAST_UPDATED}</p>
+      </section>
+
+      <section>
+        <h2>Who we are</h2>
+        <p className="mt-3">
+          {BRAND} provides virtual men&apos;s life coaching — including support
+          related to nutrition, exercise, mental fitness, and optional
+          faith-centered coaching — delivered primarily through online
+          conversations such as Zoom. This website is used to share information
+          about our approach, answer questions, and help you book a discovery
+          call or send a message.
+        </p>
+      </section>
+
+      <section>
+        <h2>Information we collect</h2>
+        <p className="mt-3">We may collect the following categories of information:</p>
+        <ul>
+          <li>
+            <strong>Information you provide.</strong> Name, email address, phone
+            number (optional), preferred start or call timing, and the contents of
+            messages you send through our contact form or by email.
+          </li>
+          <li>
+            <strong>Scheduling information.</strong> When you book through our
+            scheduling tool (for example, Calendly), we and that provider may
+            receive details you enter to schedule a call, such as name, email,
+            preferred time, time zone, and any notes you include. Meeting details
+            may also involve Zoom or a similar video service.
+          </li>
+          <li>
+            <strong>Technical and usage data.</strong> Standard log and device
+            information common to websites, such as IP address, browser type,
+            general location derived from IP, pages viewed, and referring URL.
+            This may be processed by our hosting and security providers (for
+            example, Vercel and bot-protection services such as Cloudflare
+            Turnstile when enabled).
+          </li>
+        </ul>
+        <p className="mt-4">
+          You may browse much of the site without creating an account. We do not
+          require you to purchase products through this marketing site, and we do
+          not intentionally collect payment card numbers on this website.
+        </p>
+      </section>
+
+      <section>
+        <h2>How we use your information</h2>
+        <p className="mt-3">We use personal information to:</p>
+        <ul>
+          <li>Respond to inquiries and provide coaching-related communication</li>
+          <li>Schedule, confirm, and conduct discovery calls or coaching sessions</li>
+          <li>Operate, maintain, secure, and improve this website</li>
+          <li>Prevent spam, abuse, and fraudulent submissions</li>
+          <li>Comply with applicable law and enforce our Terms of Use</li>
+        </ul>
+        <p className="mt-4">
+          We do not sell your personal information. We do not share it with
+          third parties for their own marketing.
+        </p>
+      </section>
+
+      <section>
+        <h2>How we share information</h2>
+        <p className="mt-3">
+          We may share information with trusted service providers who help us
+          run the website and coaching practice, only as needed for their role.
+          Examples include:
+        </p>
+        <ul>
+          <li>Website hosting and delivery</li>
+          <li>Email delivery for inquiry and transactional messages</li>
+          <li>Scheduling platforms (such as Calendly)</li>
+          <li>Video conferencing (such as Zoom)</li>
+          <li>Security and bot-prevention tools when enabled</li>
+        </ul>
+        <p className="mt-4">
+          These providers are expected to use your information only to perform
+          services for us or as described in their own privacy policies. We may
+          also disclose information if required by law, to protect rights and
+          safety, or in connection with a business transfer (such as a merger or
+          sale of assets), where permitted.
+        </p>
+      </section>
+
+      <section>
+        <h2>Cookies and similar technologies</h2>
+        <p className="mt-3">
+          This site and embedded third-party tools (including scheduling
+          widgets) may use cookies or similar technologies that are necessary
+          for core functionality, security, preferences, or analytics. You can
+          control cookies through your browser settings. Blocking some cookies
+          may affect how parts of the site or embeds work. When an embed
+          (such as Calendly) includes its own cookie notice, that provider&apos;s
+          practices also apply.
+        </p>
+      </section>
+
+      <section>
+        <h2>How we protect information</h2>
+        <p className="mt-3">
+          We use reasonable administrative, technical, and organizational
+          measures appropriate to the nature of the information we handle —
+          including encrypted transport (HTTPS) where available and access
+          limitations among service providers. No method of transmission or
+          storage is completely secure, and we cannot guarantee absolute
+          security.
+        </p>
+      </section>
+
+      <section>
+        <h2>Retention</h2>
+        <p className="mt-3">
+          We retain personal information only as long as needed for the purposes
+          described in this policy, including responding to you, maintaining
+          coaching relationship records where appropriate, meeting legal
+          obligations, and resolving disputes. Retention periods may vary by
+          context (for example, a one-time inquiry versus ongoing coaching).
+        </p>
+      </section>
+
+      <section>
+        <h2>Children&apos;s privacy</h2>
+        <p className="mt-3">
+          This website and our coaching services are intended for adults. We do
+          not knowingly collect personal information from children under 13. If
+          you believe a child has provided information to us, contact us and we
+          will take appropriate steps to delete it.
+        </p>
+      </section>
+
+      <section>
+        <h2>Your choices and rights</h2>
+        <p className="mt-3">
+          Depending on where you live, you may have rights to request access to,
+          correction of, or deletion of personal information we hold about you,
+          or to object to certain processing. To make a request, email us at the
+          address below. We may need to verify your identity before responding.
+          California residents: we do not sell personal information as that term
+          is commonly understood under the CCPA, and we describe our practices
+          in this policy.
+        </p>
+      </section>
+
+      <section>
+        <h2>Third-party sites and tools</h2>
+        <p className="mt-3">
+          Our site may link to or embed third-party services (for example,
+          scheduling or video tools). Those services have their own privacy
+          policies. We are not responsible for their practices. Review their
+          policies before submitting information through their interfaces.
+        </p>
+      </section>
+
+      <section>
+        <h2>Changes to this policy</h2>
+        <p className="mt-3">
+          We may update this Privacy Policy from time to time. When we do, we
+          will post the revised version on this page and update the &quot;Last
+          updated&quot; date. Continued use of the site after changes means you
+          accept the updated policy, to the extent permitted by law.
+        </p>
+      </section>
+
+      <section>
+        <h2>Related terms</h2>
+        <p className="mt-3">
+          Use of this website is also governed by our{" "}
+          <Link href="/terms-of-use">Terms of Use</Link>.
+        </p>
+      </section>
+
+      <section>
+        <h2>Contact us</h2>
+        <p className="mt-3">
+          Questions about this Privacy Policy or our data practices may be sent
+          to:
+        </p>
+        <p className="mt-3">
+          {BRAND}
+          <br />
+          <a href={siteDefaultUrl}>{siteDefaultUrl.replace(/^https?:\/\//, "")}</a>
+          <br />
+          <a href={`mailto:${orgInquiryEmail}`}>{orgInquiryEmail}</a>
+          <br />
+          Or use our <Link href="/contact">contact form</Link>.
+        </p>
+      </section>
+    </LegalPageShell>
   );
 }
